@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WSMud Tool</title>
+    <link rel="stylesheet" href="wamud.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/html2canvas.min.js"></script>
+    <script src="js/canvas2image.js"></script>
+</head>
+<body>
+    <!-- <textarea name="" id="" cols="30" rows="10"></textarea> -->
+    <div class="hr"></div>
+    <header>
+        <p>武神传说</p>
+    </header>
+    <div class="hr"></div>
+    <main>
+        <!-- Block = 0 -->
+        <div class="主页菜单">
+            <div><button value="1" type="button">基础配置</button></div>
+            <div><button value="2" type="button">模拟练习</button></div>
+            <div><button value="3" type="button">模拟武道</button></div>
+            <div><button value="4" type="button">武道流程</button></div>
+            <!-- <div><button value="0" type="button" class="disable">备用菜单</button></div> -->
+            <div><button value="5" type="button">读取配置</button></div>
+            <div><button value="6" type="button">问题反馈</button></div>
+        </div>
+        <!-- Block = 1 -->
+        <div class="基础配置">
+            <table class="role">
+                <thead><tr><td colspan="3">当前角色数据</td></tr></thead>
+                <tr>
+                    <td>角色</td>
+                    <td>境界</td>
+                    <td>门派</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true" class="editable" id="角色姓名">无名</td>
+                    <td>
+                        <select name="" id="境界选择">
+                            <option value="0">百姓</option>
+                            <option value="1">武士</option>
+                            <option value="2">武师</option>
+                            <option value="3">宗师</option>
+                            <option value="4">武圣</option>
+                            <option value="5">武帝</option>
+                            <option value="6">武神</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="" id="门派选择">
+                            <option value="0">无门无派</option>
+                            <option value="1">武当派</option>
+                            <option value="2">少林派</option>
+                            <option value="3">华山派</option>
+                            <option value="4">峨眉派</option>
+                            <option value="5">逍遥派</option>
+                            <option value="6">丐帮</option>
+                            <option value="7">杀手楼</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <table class="skill">
+                <thead>
+                    <tr>
+                        <td colspan="2" rowspan="2">当前角色技能</td>
+                        <td>统一等级</td>
+                        <td rowspan="2">
+                            <button type="button" id="setAllLevelButton">一键<br>设置</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" class="editable" id="setAllLevel">1000</td>
+                    </tr>
+                    <tr>
+                        <td class="name">技能名称</td>
+                        <td class="id">技能代码</td>
+                        <td class="level">技能等级</td>
+                        <td class="delete">删除</td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <table class="addSkill">
+                <tr><td colspan="3">手动添加技能</td></tr>
+                <tr>
+                    <td>选择类别</td>
+                    <td>选择技能</td>
+                    <td rowspan="2">
+                        <button type="button" id="addskill">确认添加</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <select name="" id="选择类别">
+                            <option value="/">请选择</option>
+                        </select>
+                    </td>
+                    <td><select name="" id="选择技能"></select></td>
+                </tr>
+                <tr><td colspan="3">一键导入技能 (JSON 字符串)</td></tr>
+                <tr>
+                    <td colspan="2" contenteditable="true" class="editable" id="skill_json"></td>
+                    <td><button type="button" id="addskill_json">确认导入</button></td>
+                </tr>
+            </table>
+
+            <div class="buttons">
+                <button type="button" id="saveData">保存当前数据</button>
+                <button type="button" id="newData">创建新的数据</button>
+                <!-- <button type="button" id="loadData" class="disable">读取其他数据</button> -->
+                <!-- <section></section> -->
+            </div>
+            <!-- <div class="buttons">
+                <button type="button" id="input" class="disable">导出当前数据</button>
+                <button type="button" id="output" class="disable">导入外部数据</button>
+            </div> -->
+        </div>
+        <!-- Block = 2 -->
+        <div class="模拟练习">
+            <table class="practice">
+                <thead>
+                    <tr>
+                        <td colspan="2" rowspan="2">练习数据模拟</td>
+                        <td>统一等级</td>
+                        <td colspan="3" rowspan="2">
+                            <button type="button" id="setLevelTo">一键设置</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true" class="editable" id="levelTo">1000</td>
+                    </tr>
+                    <tr>
+                        <td class="p1">技能名称</td>
+                        <td class="p2">当前等级</td>
+                        <td class="p3">目标等级</td>
+                        <td class="p4">潜能消耗</td>
+                        <td class="p5">练</td>
+                        <td class="p6">上限</td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <table class="autowork">
+                <thead>
+                    <tr>
+                        <td class="p1" colspan="3">练习代码</td>
+                    </tr>
+                    <tr>
+                        <td class="p2"><input type="checkbox" id="goHouse"> 回到豪宅</td>
+                        <td class="p2"><input type="checkbox" id="goParty"> 帮派练功房</td>
+                        <td class="p3" rowspan="2">
+                            <button type="button" id="copyCode">一键复制</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" id="waKuang"> 练完挖矿</td>
+                        <td><input type="checkbox" id="xiuLian"> 练完修炼</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="color10 text" colspan="3">
+                            当你学习，练习，打坐中断后，自动去挖矿或以下操作
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="color10 text" colspan="3">
+                            <pre id="autocode"></pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3" id="costAndTime">需要消耗</td>
+                        <td>先天悟性</td>
+                        <td class="editable" contenteditable="true" id="xtwx"></td>
+                    </tr>
+                    <tr>
+                        <td>后天悟性</td>
+                        <td class="editable" contenteditable="true" id="htwx"></td>
+                    </tr>
+                    <tr>
+                        <td>练习效率</td>
+                        <td class="editable" contenteditable="true" id="lxxl"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Block = 3 -->
+        <div class="模拟武道">
+            <table class="wudao">
+                <tr>
+                    <td>
+                        <button type="button" class="type" id="force">内功</button>
+                        <button type="button" class="type" id="dodge">轻功</button>
+                        <button type="button" class="type" id="parry">招架</button>
+                        <button type="button" class="type" id="unarmed">拳脚</button>
+                        <button type="button" class="type" id="weapon">武器</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="props">
+                        请选择武道类别
+                    </td>
+                </tr>
+                <tr>
+                    <td class="skillsToWd">武道进阶模拟</td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="button" id="confirm">确认进阶</button>
+                        <button type="button" id="retract">撤销操作</button>
+                        <button type="button" id="reset">重置武道</button>
+                    </td>
+                </tr>
+            </table>
+            <table id="download" class="wudaos">
+                <thead>
+                    <tr>
+                        <td rowspan="2" colspan="2" id="wd_title"></td>
+                        <td id="book"></td>
+                    </tr>
+                    <tr>
+                        <td id="qian"></td>
+                    </tr>
+                    <tr>
+                        <td class="p1">技能名称</td>
+                        <td class="p2">等级</td>
+                        <td class="p3">武道属性</td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <button id="btn_download" type="button">一键下载你的武道配置图</button>
+
+        </div>
+        <!-- block 4 -->
+        <div class="武道流程">
+            <div class="readme">
+                <p>主要功能：可以实现无人值守的武道进阶过程。</p>
+                <p>使用方法：本流程必须在 wsmud_Raid 插件的流程功能中使用，电脑端浏览器插件设置好之后挂机即可。</p>
+                <p>免责声明：武道进阶失败、流程运行出错等（无论是因为何种因素导致的一切损失），本站概不负责。</p>
+                <p>
+                    其他链接：目前武神传说两个主流插件，首先是初心写的
+                    <a href="https://greasyfork.org/zh-CN/scripts/371372" target="_blank">wsmud_pluginss</a>
+                    ，其次 Bob.cn 写的
+                    <a href="https://greasyfork.org/zh-CN/scripts/375851" target="_blank">wsmud_Raid</a>
+                    和
+                    <a href="https://greasyfork.org/zh-CN/scripts/378984-wsmud-trigger">wsmud_Trigger</a>
+                    ，还有 Bob.cn 搭建的论坛（目前已关闭。）
+                    <a href="http://wsmud.bobcn.me" target="_blank">江湖客栈</a>
+                    。
+                </p>
+            </div>
+            <pre id="process_code">
+            </pre>
+            <button type="button" id="copy_process">一键复制</button>
+
+        </div>
+        <!-- block 5 -->
+        <div class="读取配置">
+            <table id="roles">
+                <thead>
+                    <tr>
+                        <td>角色</td>
+                        <td>境界</td>
+                        <td>门派</td>
+                        <td>读取</td>
+                        <td>删除</td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <!-- block 6 -->
+        <div class="问题反馈">
+            <div class="qqqun">
+                <p>研究更好的挖矿姿势</p>
+                <p>QQ 群 953279200</p>
+                <p>请使用手机搜索群号 </p>
+                <p>&nbsp;</p>
+                <p class="ps">　　注意：为了防止无关人员加群，需要支付门票 1 元。本站使用有问题的，直接加 QQ 群反馈。QQ 账号里面没钱的请直接点击「群管理」，找到「苏轻」，私聊要一块钱即可。之前一段时间，QQ 群号搜索不到，也没人告诉我……好吧，现在正常了。</p>
+                <p>&nbsp;</p>
+                <p class="ps">　　有问题请联系我，如果群里消息多，我没回复，请直接私聊我，我不怕烦的。</p>
+            </div>
+        </div>
+    </main>
+    <div class="hr"></div>
+    <footer>
+        <div class="日志输出"></div>
+    </footer>
+    <div class="hr"></div>
+    <script src="wamud.js"></script>
+</body>
+</html>
